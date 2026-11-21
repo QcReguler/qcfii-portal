@@ -53,6 +53,7 @@
 <section id="recoveryPage" class="hidden">
  <div class="loginbox"><div class="brand"><div class="mark">QC</div><div><b>QCFII</b><small>PEMULIHAN AKUN</small></div></div>
   <h2>Buat Password Baru</h2><p class="small">Buat password baru untuk akun QCFII Anda. Gunakan minimal 8 karakter.</p>
+  <div id="recoveryNotice" class="notice hidden" role="status"></div>
   <div class="field"><label>Password baru</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Masukkan password baru"></div>
   <div class="field"><label>Konfirmasi password baru</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Ulangi password baru"></div>
   <button class="btn" style="width:100%" onclick="saveNewPassword()">Simpan Password Baru</button>
@@ -98,7 +99,15 @@ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_cB_l_Nxytn79xMeWPBQzuQ_gWAhBaqn';
 let sb=null, role='member', currentUser=null, submissions=[];
 function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
 function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
-function showRecoveryPage(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';document.getElementById('recoveryPage').classList.remove('hidden');window.scrollTo(0,0)}
+function showRecoveryPage(message=''){
+ document.getElementById('publicPage').classList.add('hidden');
+ document.getElementById('loginPage').classList.add('hidden');
+ document.getElementById('workspace').style.display='none';
+ document.getElementById('recoveryPage').classList.remove('hidden');
+ const n=document.getElementById('recoveryNotice');
+ if(message){n.textContent=message;n.classList.remove('hidden')}else{n.textContent='';n.classList.add('hidden')}
+ window.scrollTo(0,0);
+}
 async function saveNewPassword(){
  if(!sb){alert('Koneksi Supabase belum siap.');return}
  const password=document.getElementById('newPassword').value, confirm=document.getElementById('confirmPassword').value;
@@ -123,8 +132,15 @@ async function sendPasswordReset(){
  if(!sb){alert('Supabase belum siap.');return}
  const email=document.getElementById('demoEmail').value.trim();
  if(!email){alert('Masukkan email terlebih dahulu.');return}
- const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});
- if(error)alert('Permintaan reset gagal: '+error.message);else alert('Jika email terdaftar, instruksi reset password akan dikirim.');
+ const redirectTo=window.location.origin+window.location.pathname;
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});
+ if(error){
+  if(/rate limit|email rate limit/i.test(error.message)){
+   alert('Email reset terlalu sering diminta. Jangan klik berulang kali. Tunggu sampai batas pengiriman Supabase pulih, lalu minta satu email reset baru.');
+  }else{alert('Permintaan reset gagal: '+error.message);}
+ }else{
+  alert('Permintaan reset diproses. Periksa Inbox, Spam, atau Junk. Gunakan email reset yang PALING BARU dan segera buka link tersebut. Jangan gunakan link reset yang lama.');
+ }
 }
 async function loadMemberWorkspace(user){
  const {data:profile,error}=await sb.from('profiles').select('email,display_name,role,is_active').eq('user_id',user.id).maybeSingle();
@@ -201,13 +217,27 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','
    setNotice('Terhubung ke layanan Supabase. Silakan login sebagai anggota.');
    let handlingRecovery=false;
    sb.auth.onAuthStateChange((event,session)=>{
-    if(event==='PASSWORD_RECOVERY'){handlingRecovery=true;showRecoveryPage();return;}
+    if(event==='PASSWORD_RECOVERY'){
+     handlingRecovery=true;
+     showRecoveryPage('Link pemulihan terdeteksi. Silakan buat password baru di bawah ini.');
+     return;
+    }
     if(event==='SIGNED_OUT'){currentUser=null;}
    });
+   const hashParams=new URLSearchParams(window.location.hash.replace(/^#/,'')); 
+   const queryParams=new URLSearchParams(window.location.search);
+   const authError=hashParams.get('error_description')||queryParams.get('error_description');
+   const authErrorCode=hashParams.get('error_code')||queryParams.get('error_code');
+   if(authError || authErrorCode){
+    showRecoveryPage('Link reset tidak valid atau sudah kedaluwarsa ('+(authErrorCode||'auth_error')+'). Kembali ke login, minta satu link reset baru, lalu gunakan hanya email terbaru.');
+    return;
+   }
    const {data}=await sb.auth.getSession();
-   const hashParams=new URLSearchParams(window.location.hash.replace(/^#/,''));
-   if(hashParams.get('type')==='recovery'){showRecoveryPage();}
-   else if(data.session&&!handlingRecovery){await loadMemberWorkspace(data.session.user);}
+   if(hashParams.get('type')==='recovery' || queryParams.get('type')==='recovery'){
+    showRecoveryPage(data.session?'Link pemulihan aktif. Silakan buat password baru.':'Link pemulihan terdeteksi, tetapi sesi belum aktif. Jika muncul error saat menyimpan, minta link reset baru.');
+   }else if(data.session&&!handlingRecovery){
+    await loadMemberWorkspace(data.session.user);
+   }
   }catch(e){setNotice('Koneksi Supabase gagal: '+e.message)}
  };
  tag.onerror=()=>setNotice('Library Supabase gagal dimuat. Periksa koneksi internet.');
