@@ -50,6 +50,15 @@
   <button class="btn outline" style="width:100%;margin-top:8px" onclick="sendPasswordReset()">Lupa password?</button><button class="btn outline" style="width:100%;margin-top:8px" onclick="showPublic()">Kembali ke publik</button>
  </div>
 </section>
+<section id="recoveryPage" class="hidden">
+ <div class="loginbox"><div class="brand"><div class="mark">QC</div><div><b>QCFII</b><small>PEMULIHAN AKUN</small></div></div>
+  <h2>Buat Password Baru</h2><p class="small">Buat password baru untuk akun QCFII Anda. Gunakan minimal 8 karakter.</p>
+  <div class="field"><label>Password baru</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Masukkan password baru"></div>
+  <div class="field"><label>Konfirmasi password baru</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Ulangi password baru"></div>
+  <button class="btn" style="width:100%" onclick="saveNewPassword()">Simpan Password Baru</button>
+  <button class="btn outline" style="width:100%;margin-top:8px" onclick="showLogin()">Kembali ke Login</button>
+ </div>
+</section>
 <section id="workspace" class="workspace">
  <aside class="side">
   <div class="brand" style="color:white;padding:3px 8px 16px"><div class="mark">QC</div><div class="sidelogo-text"><b>QCFII</b><small style="display:block;color:#b4c9d7;font-size:9px">PORTAL ANGGOTA</small></div></div>
@@ -87,8 +96,20 @@
 const SUPABASE_URL='https://qyjgdcyuntidzkscztbq.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_cB_l_Nxytn79xMeWPBQzuQ_gWAhBaqn';
 let sb=null, role='member', currentUser=null, submissions=[];
-function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
-function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function showRecoveryPage(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';document.getElementById('recoveryPage').classList.remove('hidden');window.scrollTo(0,0)}
+async function saveNewPassword(){
+ if(!sb){alert('Koneksi Supabase belum siap.');return}
+ const password=document.getElementById('newPassword').value, confirm=document.getElementById('confirmPassword').value;
+ if(password.length<8){alert('Password minimal 8 karakter.');return}
+ if(password!==confirm){alert('Konfirmasi password tidak sama.');return}
+ const {error}=await sb.auth.updateUser({password});
+ if(error){alert('Password gagal diperbarui: '+error.message);return}
+ document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';
+ alert('Password baru berhasil disimpan. Silakan login kembali menggunakan password baru.');
+ await sb.auth.signOut();showLogin();
+}
 function setNotice(msg){const n=document.getElementById('connectionNotice');if(n)n.textContent=msg}
 async function realSignIn(){
  if(!sb){alert('Koneksi Supabase belum siap. Periksa koneksi internet dan buka melalui hosting atau server lokal (bukan preview teks).');return}
@@ -178,9 +199,15 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','
   try{
    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
    setNotice('Terhubung ke layanan Supabase. Silakan login sebagai anggota.');
+   let handlingRecovery=false;
+   sb.auth.onAuthStateChange((event,session)=>{
+    if(event==='PASSWORD_RECOVERY'){handlingRecovery=true;showRecoveryPage();return;}
+    if(event==='SIGNED_OUT'){currentUser=null;}
+   });
    const {data}=await sb.auth.getSession();
-   if(data.session)await loadMemberWorkspace(data.session.user);
-   sb.auth.onAuthStateChange((_event,session)=>{if(!session){currentUser=null;}});
+   const hashParams=new URLSearchParams(window.location.hash.replace(/^#/,''));
+   if(hashParams.get('type')==='recovery'){showRecoveryPage();}
+   else if(data.session&&!handlingRecovery){await loadMemberWorkspace(data.session.user);}
   }catch(e){setNotice('Koneksi Supabase gagal: '+e.message)}
  };
  tag.onerror=()=>setNotice('Library Supabase gagal dimuat. Periksa koneksi internet.');
