@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QCFII | Portal Quality Control</title>
+<style>
+:root{--navy:#102b46;--navy2:#173e60;--blue:#245b83;--teal:#15977f;--bg:#f3f6f9;--ink:#1d2e3d;--muted:#718191;--line:#e1e8ee;--white:#fff;--gold:#d5a34d;--red:#b94b4b;--shadow:0 10px 30px #102b4610}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,"Segoe UI",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1240px)/2));position:sticky;top:0;z-index:4}.brand{display:flex;align-items:center;gap:11px;color:var(--navy)}.mark{height:42px;width:42px;border-radius:12px;border:2px solid #78cdb9;display:grid;place-items:center;color:var(--teal);font-weight:900;font-size:14px}.brand b{font-size:21px;letter-spacing:1.4px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.1px}.top-actions{display:flex;align-items:center;gap:9px}.btn{border:0;border-radius:9px;background:var(--teal);color:white;font-weight:700;padding:10px 15px}.btn:hover{filter:brightness(.96)}.btn.secondary{background:#eaf0f5;color:var(--navy)}.btn.outline{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn.red{background:#fff0f0;color:var(--red)}.small{font-size:11px;color:var(--muted)}.container{width:min(1240px,calc(100% - 40px));margin:auto}
+.hero{background:linear-gradient(115deg,#102b46 0%,#173e60 65%,#20627b 100%);color:#fff;padding:66px 0 60px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:430px;height:430px;border:1px solid #ffffff20;border-radius:50%;right:-70px;top:-180px;box-shadow:0 0 0 45px #ffffff08,0 0 0 95px #ffffff06}.hero-inner{position:relative;z-index:1;max-width:760px}.eyebrow{color:#9be1d1;text-transform:uppercase;letter-spacing:1.6px;font-size:11px;font-weight:800}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:14px 0}.hero p{font-size:16px;color:#d6e3ec;max-width:650px;margin:0 0 25px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.hero .btn.outline{background:#ffffff12;color:#fff;border-color:#ffffff55}.section{padding:32px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:17px}.section h2{font-size:21px;margin:0;color:var(--navy)}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.tile,.panel,.metric{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.tile{padding:18px}.tile .ico{height:38px;width:38px;border-radius:11px;background:#eaf4f5;color:var(--teal);display:grid;place-items:center;font-size:18px;margin-bottom:12px}.tile b{display:block;color:var(--navy);font-size:14px}.tile p{font-size:11px;color:var(--muted);margin:5px 0 0}.panel{padding:19px}.panel h3{margin:0 0 13px;color:var(--navy);font-size:15px}.doc-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.doc{border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;justify-content:space-between;gap:12px;align-items:center;background:#fff}.doc b{font-size:12px}.tag{display:inline-block;border-radius:30px;padding:4px 8px;font-size:10px;background:#edf3f7;color:#496276;white-space:nowrap}.tag.green{background:#e6f5ef;color:#16775d}.tag.amber{background:#fff4df;color:#95620c}.footer{background:var(--navy);color:#d6e2eb;padding:26px 0;margin-top:25px}.footer small{color:#a8bdcb}
+.workspace{display:none;min-height:calc(100vh - 72px)}.side{position:fixed;top:72px;bottom:0;left:0;width:238px;background:var(--navy);color:#fff;padding:18px 13px;overflow:auto}.side .nav-title{font-size:9px;letter-spacing:1.5px;color:#8eacbf;padding:16px 10px 7px}.nav{width:100%;text-align:left;border:0;background:transparent;color:#d5e2eb;padding:10px 11px;border-radius:8px;margin:2px 0}.nav.active,.nav:hover{background:#244d6d;color:#fff}.workmain{margin-left:238px;padding:26px;max-width:1500px}.workhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.workhead h1{font-size:23px;margin:0;color:var(--navy)}.workhead p{margin:3px 0;color:var(--muted);font-size:12px}.rolepill{background:#e5f5ef;color:#14785d;border-radius:30px;padding:6px 10px;font-size:10px;font-weight:800}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{padding:16px}.metric span{font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:25px;color:var(--navy);margin-top:4px}.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-top:14px}.rowitem{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);gap:10px}.rowitem:last-child{border:0}.tablewrap{overflow:auto}.tbl{border-collapse:collapse;width:100%;font-size:12px}.tbl th,.tbl td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}.tbl th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:11px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea,.search{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;background:white}.field textarea{min-height:90px;resize:vertical}.field.full{grid-column:1/-1}.notice{background:#fff7e8;border:1px solid #f0dfb8;border-radius:10px;padding:12px;color:#795c24;font-size:11px;margin-bottom:14px}.loginbox{width:min(440px,calc(100% - 30px));margin:48px auto;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:25px}.loginbox h2{color:var(--navy);margin:8px 0}.loginbox .field{margin:12px 0}.public-only{display:block}.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}.side{width:64px;padding:13px 7px}.side .nav-title,.side .nav span,.side .sidelogo-text{display:none}.nav{text-align:center;font-size:0}.nav:before{content:attr(data-i);font-size:17px}.workmain{margin-left:64px;padding:18px}.metrics{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+@media(max-width:600px){.top{padding:0 13px}.container{width:calc(100% - 26px)}.top-actions .btn.outline{display:none}.hero{padding:48px 0}.tiles{gap:8px}.tile{padding:13px}.doc-list{grid-template-columns:1fr}.workmain{padding:13px}.workhead{align-items:flex-start;gap:10px;flex-direction:column}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:21px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand"><div class="mark">QC</div><div><b>QCFII</b><small>QUALITY CONTROL PORTAL</small></div></div>
+ <div class="top-actions"><button class="btn outline" onclick="showPublic()">Beranda Publik</button><button class="btn" onclick="showLogin()">Login Anggota</button></div>
+</header>
+<main id="publicPage">
+ <section class="hero"><div class="container hero-inner">
+  <div class="eyebrow">PT FUTABA INDUSTRIAL INDONESIA · QUALITY CONTROL</div>
+  <h1>Portal Informasi & Pengendalian Quality Control</h1>
+  <p>Gerbang informasi Quality Control untuk dokumen terkendali, standar kerja, problem solving, kaizen, dan laporan kualitas.</p>
+  <div class="hero-actions"><button class="btn" onclick="document.getElementById('publicDocs').scrollIntoView({behavior:'smooth'})">Lihat Dokumen Publik</button><button class="btn outline" onclick="showLogin()">Masuk sebagai Anggota</button></div>
+ </div></section>
+ <section class="section"><div class="container"><div class="section-head"><div><h2>Ruang lingkup portal</h2><p>Informasi yang tersedia sesuai status publikasi dan kewenangan akses.</p></div></div>
+  <div class="tiles">
+   <div class="tile"><div class="ico">▤</div><b>SDS Digital</b><p>Informasi Safety Data Sheet yang telah disetujui untuk ditampilkan.</p></div>
+   <div class="tile"><div class="ico">▣</div><b>SOP & Work Instruction</b><p>Standar dan instruksi kerja dengan kontrol revisi.</p></div>
+   <div class="tile"><div class="ico">⚠</div><b>Problem & Countermeasure</b><p>Pengelolaan masalah dan tindakan perbaikan untuk anggota.</p></div>
+   <div class="tile"><div class="ico">✦</div><b>Kaizen & KPI</b><p>Aktivitas improvement dan pemantauan performa.</p></div>
+  </div>
+ </div></section>
+ <section class="section" id="publicDocs" style="padding-top:0"><div class="container"><div class="section-head"><div><h2>Dokumen yang dipublikasikan</h2><p>Hanya dokumen dengan status disetujui dan ditetapkan publik yang boleh tampil di sini.</p></div><input class="search" style="max-width:230px" placeholder="Cari dokumen..." oninput="filterPublicDocs(this.value)"></div>
+  <div class="panel"><div id="publicDocList" class="doc-list">
+   <div class="doc"><div><b>Belum ada dokumen publik</b><div class="small">Dokumen akan muncul setelah diunggah, disetujui Owner, dan ditandai untuk publikasi.</div></div><span class="tag amber">Menunggu konten</span></div>
+  </div></div>
+ </div></section>
+ <section class="section" style="padding-top:0"><div class="container"><div class="panel"><h3>Kontrol publikasi</h3><p class="small">Portal publik hanya menampilkan konten yang secara eksplisit disetujui untuk akses publik. Data internal, identitas pengguna, problem internal, lampiran rahasia, dan catatan audit tidak ditampilkan kepada pengunjung umum.</p></div></div></section>
+</main>
+<section id="loginPage" class="hidden">
+ <div class="loginbox"><div class="brand"><div class="mark">QC</div><div><b>QCFII</b><small>AREA ANGGOTA</small></div></div>
+  <h2>Masuk ke Portal QC</h2><p class="small">Akun hanya dapat dibuat melalui undangan Owner. Registrasi mandiri tidak tersedia.</p>
+  <div class="notice">Login menggunakan Supabase. Akun harus dibuat melalui undangan Owner. Profil dan role harus sudah diaktifkan oleh Owner.</div>
+  <div class="field"><label>Email</label><input id="demoEmail" type="email" placeholder="nama@perusahaan.com"></div>
+  <div class="field"><label>Password</label><input id="demoPass" type="password" autocomplete="current-password" placeholder="Password akun QCFII"></div>
+  <button class="btn" style="width:100%" onclick="realSignIn()">Masuk</button>
+  <button class="btn outline" style="width:100%;margin-top:8px" onclick="sendPasswordReset()">Lupa password?</button><button class="btn outline" style="width:100%;margin-top:8px" onclick="showPublic()">Kembali ke publik</button>
+ </div>
+</section>
+<section id="workspace" class="workspace">
+ <aside class="side">
+  <div class="brand" style="color:white;padding:3px 8px 16px"><div class="mark">QC</div><div class="sidelogo-text"><b>QCFII</b><small style="display:block;color:#b4c9d7;font-size:9px">PORTAL ANGGOTA</small></div></div>
+  <div class="nav-title">MENU UTAMA</div>
+  <button class="nav active" data-i="▦" onclick="page('dash',this)">▦ <span>Dashboard</span></button>
+  <button class="nav" data-i="▤" onclick="page('docs',this)">▤ <span>Dokumen</span></button>
+  <button class="nav" data-i="⚠" onclick="page('problems',this)">⚠ <span>Problem QC</span></button>
+  <button class="nav" data-i="✦" onclick="page('kaizen',this)">✦ <span>Kaizen</span></button>
+  <button class="nav" data-i="▥" onclick="page('reports',this)">▥ <span>Report & KPI</span></button>
+  <div id="ownerNav" class="hidden"><div class="nav-title">KHUSUS OWNER</div>
+   <button class="nav" data-i="✓" onclick="page('approval',this)">✓ <span>Persetujuan</span></button>
+   <button class="nav" data-i="♙" onclick="page('users',this)">♙ <span>Manajemen Pengguna</span></button>
+   <button class="nav" data-i="⚙" onclick="page('audit',this)">⚙ <span>Audit & Pengaturan</span></button>
+  </div>
+  <div style="margin-top:auto;padding:13px 8px;border-top:1px solid #31516b;color:#b9cad7;font-size:10px">Akses berbasis peran<br>QCFII · Prototype v2</div>
+ </aside>
+ <div class="workmain">
+  <div class="workhead"><div><h1 id="pageTitle">Dashboard</h1><p id="welcome">Ringkasan aktivitas portal Quality Control.</p></div><div><span class="rolepill" id="roleLabel">MEMBER</span> <button class="btn secondary" onclick="logout()">Keluar</button></div></div>
+  <div class="notice" id="connectionNotice">Menghubungkan ke Supabase…</div>
+  <section id="dash" class="subpage">
+   <div class="metrics"><div class="metric"><span>Dokumen terpublikasi</span><strong>—</strong></div><div class="metric"><span>Pengajuan saya</span><strong id="mySubmissions">0</strong></div><div class="metric"><span>Menunggu persetujuan</span><strong id="pendingTotal">0</strong></div><div class="metric"><span>Status akun</span><strong style="font-size:17px">Pratinjau</strong></div></div>
+   <div class="grid2"><div class="panel"><h3>Aktivitas portal</h3><div class="rowitem"><span>Ajukan dokumen atau revisi</span><button class="btn secondary" onclick="page('docs')">Buka</button></div><div class="rowitem"><span>Laporkan problem kualitas</span><button class="btn secondary" onclick="page('problems')">Buka</button></div><div class="rowitem"><span>Ajukan ide kaizen</span><button class="btn secondary" onclick="page('kaizen')">Buka</button></div></div><div class="panel"><h3>Aturan kerja</h3><p class="small">Anggota dapat mengisi dan mengajukan data. Perubahan penting, pengesahan, perubahan hak akses, serta publikasi memerlukan persetujuan sesuai kewenangan Owner.</p></div></div>
+  </section>
+  <section id="docs" class="subpage hidden"><div class="panel"><h3>Pengajuan dokumen</h3><div class="formgrid"><div class="field"><label>Jenis dokumen</label><select id="docType"><option>SDS</option><option>SOP</option><option>Work Instruction</option><option>Form QC</option><option>Standard Inspection</option></select></div><div class="field"><label>Departemen / proses</label><input id="docDept" placeholder="Contoh: Welding"></div><div class="field"><label>Nomor dokumen</label><input id="docNo" placeholder="Nomor dokumen"></div><div class="field"><label>Judul dokumen</label><input id="docTitle" placeholder="Judul dokumen"></div><div class="field full"><label>Catatan pengajuan</label><textarea id="docNote" placeholder="Jelaskan pembuatan atau revisi yang diajukan"></textarea></div></div><button class="btn" onclick="submitItem('Dokumen', ['docType','docDept','docNo','docTitle','docNote'])">Kirim untuk persetujuan</button></div></section>
+  <section id="problems" class="subpage hidden"><div class="panel"><h3>Input problem kualitas</h3><div class="formgrid"><div class="field"><label>Area / proses</label><input id="probArea" placeholder="Press / Body / Welding"></div><div class="field"><label>Part / produk</label><input id="probPart" placeholder="Nama atau nomor part"></div><div class="field"><label>Jenis problem</label><input id="probType" placeholder="Contoh: Welding bolong"></div><div class="field"><label>Tanggal kejadian</label><input id="probDate" type="date"></div><div class="field full"><label>Deskripsi problem</label><textarea id="probDesc" placeholder="Apa yang terjadi, lokasi temuan, jumlah, dan kondisi aktual"></textarea></div><div class="field full"><label>Containment sementara</label><textarea id="probContain" placeholder="Tindakan pengamanan sementara"></textarea></div></div><button class="btn" onclick="submitItem('Problem QC',['probArea','probPart','probType','probDate','probDesc','probContain'])">Kirim problem</button></div></section>
+  <section id="kaizen" class="subpage hidden"><div class="panel"><h3>Pengajuan kaizen</h3><div class="formgrid"><div class="field"><label>Judul kaizen</label><input id="kTitle" placeholder="Judul improvement"></div><div class="field"><label>Area</label><input id="kArea" placeholder="Area / proses"></div><div class="field full"><label>Kondisi saat ini</label><textarea id="kBefore" placeholder="Jelaskan kondisi sebelum perbaikan"></textarea></div><div class="field full"><label>Usulan perbaikan</label><textarea id="kAfter" placeholder="Jelaskan rencana improvement"></textarea></div><div class="field full"><label>Target / manfaat</label><textarea id="kBenefit" placeholder="Quality, cost, delivery, safety, productivity"></textarea></div></div><button class="btn" onclick="submitItem('Kaizen',['kTitle','kArea','kBefore','kAfter','kBenefit'])">Kirim kaizen</button></div></section>
+  <section id="reports" class="subpage hidden"><div class="panel"><h3>Report & KPI</h3><p class="small">KPI aktual belum dihubungkan. Definisi indikator, formula, sumber data, target, dan periode harus disepakati sebelum angka ditampilkan.</p><div class="rowitem"><span>Quality performance</span><span class="tag">Belum terhubung</span></div><div class="rowitem"><span>Outflow / customer claim</span><span class="tag">Belum terhubung</span></div><div class="rowitem"><span>Kaizen achievement</span><span class="tag">Belum terhubung</span></div></div></section>
+  <section id="approval" class="subpage hidden"><div class="panel"><h3>Persetujuan Owner</h3><div class="tablewrap"><table class="tbl"><thead><tr><th>Jenis</th><th>Ringkasan</th><th>Pemohon</th><th>Status</th><th>Keputusan</th></tr></thead><tbody id="approvalRows"><tr><td colspan="5" class="empty">Belum ada pengajuan pada sesi pratinjau.</td></tr></tbody></table></div></div></section>
+  <section id="users" class="subpage hidden"><div class="panel"><h3>Manajemen pengguna</h3><p class="small">Undangan dan perubahan role memerlukan fungsi server tepercaya. Fitur ini belum diaktifkan pada tahap koneksi awal.</p><div class="formgrid"><div class="field"><label>Email calon anggota</label><input id="inviteEmail" type="email" placeholder="nama@perusahaan.com"></div><div class="field"><label>Role</label><select id="inviteRole"><option>Member</option><option>Editor</option><option>Administrator</option></select></div></div><button class="btn secondary" disabled title="Menunggu Edge Function undangan Owner">Undangan belum diaktifkan</button><div class="tablewrap" style="margin-top:14px"><table class="tbl"><thead><tr><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody id="inviteRows"><tr><td colspan="3" class="empty">Belum ada undangan demo.</td></tr></tbody></table></div></div></section>
+  <section id="audit" class="subpage hidden"><div class="panel"><h3>Audit & pengaturan Owner</h3><p class="small">Log audit produksi harus ditulis oleh fungsi server tepercaya, bukan oleh browser. Di sini hanya ringkasan aturan rancangan.</p><div class="rowitem"><span>Pembuatan akun</span><b>Owner only</b></div><div class="rowitem"><span>Perubahan role</span><b>Owner only</b></div><div class="rowitem"><span>Persetujuan publikasi</span><b>Owner approval</b></div><div class="rowitem"><span>Audit log</span><b>Server-side wajib</b></div><div class="rowitem"><span>Dokumen internal</span><b>Private storage</b></div></div></section>
+ </div>
+</section>
+<footer class="footer"><div class="container"><b>QCFII · QUALITY CONTROL PORTAL</b><br><small>PT FUTABA INDUSTRIAL INDONESIA · Portal informasi dan pengendalian Quality Control</small></div></footer>
+<script>
+const SUPABASE_URL='https://qyjgdcyuntidzkscztbq.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_cB_l_Nxytn79xMeWPBQzuQ_gWAhBaqn';
+let sb=null, role='member', currentUser=null, submissions=[];
+function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function setNotice(msg){const n=document.getElementById('connectionNotice');if(n)n.textContent=msg}
+async function realSignIn(){
+ if(!sb){alert('Koneksi Supabase belum siap. Periksa koneksi internet dan buka melalui hosting atau server lokal (bukan preview teks).');return}
+ const email=document.getElementById('demoEmail').value.trim(), password=document.getElementById('demoPass').value;
+ if(!email||!password){alert('Masukkan email dan password.');return}
+ const {data,error}=await sb.auth.signInWithPassword({email,password});
+ if(error){alert('Login gagal: '+error.message);return}
+ await loadMemberWorkspace(data.user);
+}
+async function sendPasswordReset(){
+ if(!sb){alert('Supabase belum siap.');return}
+ const email=document.getElementById('demoEmail').value.trim();
+ if(!email){alert('Masukkan email terlebih dahulu.');return}
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});
+ if(error)alert('Permintaan reset gagal: '+error.message);else alert('Jika email terdaftar, instruksi reset password akan dikirim.');
+}
+async function loadMemberWorkspace(user){
+ const {data:profile,error}=await sb.from('profiles').select('email,display_name,role,is_active').eq('user_id',user.id).maybeSingle();
+ if(error){alert('Tidak dapat membaca profil: '+error.message);await sb.auth.signOut();return}
+ if(!profile||!profile.is_active){alert('Akun Auth ditemukan, tetapi profil QCFII belum diaktifkan Owner. Hubungi Owner.');await sb.auth.signOut();return}
+ currentUser=user;role=profile.role;
+ document.getElementById('loginPage').classList.add('hidden');document.getElementById('publicPage').classList.add('hidden');document.getElementById('workspace').style.display='block';
+ document.getElementById('roleLabel').textContent=role.toUpperCase();
+ document.getElementById('ownerNav').classList.toggle('hidden',role!=='owner');
+ document.getElementById('welcome').textContent='Masuk sebagai '+(profile.display_name||profile.email);
+ setNotice('Terhubung ke Supabase. Hak akses dibaca dari profil database.');
+ page('dash');await refreshMySubmissions();window.scrollTo(0,0);
+}
+async function logout(){if(sb)await sb.auth.signOut();currentUser=null;showPublic()}
+async function refreshMySubmissions(){
+ if(!sb||!currentUser)return;
+ const tables=['documents','quality_problems','kaizens'];let total=0,pending=0;
+ for(const table of tables){const {data}=await sb.from(table).select('id,status').eq('created_by',currentUser.id);if(data){total+=data.length;pending+=data.filter(x=>x.status==='submitted').length}}
+ document.getElementById('mySubmissions').textContent=total;document.getElementById('pendingTotal').textContent=pending;
+}
+function page(id,btn){document.querySelectorAll('.subpage').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else{let n=[...document.querySelectorAll('.nav')].find(x=>x.getAttribute('onclick')?.includes("'"+id+"'"));if(n)n.classList.add('active')}document.getElementById('pageTitle').textContent=({dash:'Dashboard',docs:'Dokumen',problems:'Problem QC',kaizen:'Kaizen',reports:'Report & KPI',approval:'Persetujuan Owner',users:'Manajemen Pengguna',audit:'Audit & Pengaturan'})[id]||id;if(id==='approval')renderApprovals()}
+async function submitItem(type,ids){
+ if(!sb||!currentUser){alert('Silakan login terlebih dahulu.');return}
+ let vals=ids.map(id=>document.getElementById(id).value.trim());
+ if(vals.some(v=>!v)){alert('Mohon lengkapi semua kolom sebelum mengirim.');return}
+ let table,payload,entityType,summary;
+ if(type==='Dokumen'){
+  table='documents';entityType='document';summary=vals[3];
+  payload={doc_code:vals[2],title:vals[3],doc_type:({'SDS':'SDS','SOP':'SOP','Work Instruction':'WI','Form QC':'FORM','Standard Inspection':'STANDARD'})[vals[0]],department:vals[1],status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
+ }else if(type==='Problem QC'){
+  table='quality_problems';entityType='problem';summary=vals[2];
+  payload={problem_code:'QCP-'+Date.now(),title:vals[2],process_area:vals[0],problem_description:vals[4]+' | Part: '+vals[1]+' | Tanggal: '+vals[3]+' | Containment: '+vals[5],status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
+ }else{
+  table='kaizens';entityType='kaizen';summary=vals[0];
+  payload={kaizen_code:'KZN-'+Date.now(),title:vals[0],department:vals[1],before_condition:vals[2],after_condition:vals[3],benefit:vals[4],status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
+ }
+ const {data:record,error}=await sb.from(table).insert(payload).select('id').single();
+ if(error){alert('Pengajuan gagal disimpan: '+error.message);return}
+ const {error:approvalError}=await sb.from('approval_requests').insert({entity_type:entityType,entity_id:record.id,requested_action:'publish',requested_by:currentUser.id,status:'submitted'});
+ if(approvalError){alert('Data tersimpan, tetapi permintaan approval gagal dibuat: '+approvalError.message+' . Hubungi Owner untuk pemeriksaan.');return}
+ alert('Pengajuan berhasil disimpan dan dikirim untuk persetujuan Owner.');
+ ids.forEach(id=>document.getElementById(id).value='');await refreshMySubmissions();
+}
+async function renderApprovals(){
+ let b=document.getElementById('approvalRows');if(!sb||role!=='owner'){b.innerHTML='<tr><td colspan="5" class="empty">Menu ini hanya untuk Owner yang sudah terverifikasi.</td></tr>';return}
+ const {data,error}=await sb.from('approval_requests').select('id,entity_type,entity_id,requested_by,status,created_at').eq('status','submitted').order('created_at',{ascending:false});
+ if(error){b.innerHTML='<tr><td colspan="5" class="empty">Gagal memuat approval: '+escapeHtml(error.message)+'</td></tr>';return}
+ if(!data||!data.length){b.innerHTML='<tr><td colspan="5" class="empty">Belum ada pengajuan.</td></tr>';return}
+ b.innerHTML=data.map(x=>'<tr><td>'+escapeHtml(x.entity_type)+'</td><td>'+escapeHtml(x.entity_id)+'</td><td>'+escapeHtml(x.requested_by)+'</td><td><span class="tag amber">Menunggu</span></td><td><button class="btn" onclick="decideApproval(\''+x.id+'\',\''+x.entity_type+'\',\''+x.entity_id+'\',true)">Setujui</button> <button class="btn red" onclick="decideApproval(\''+x.id+'\',\''+x.entity_type+'\',\''+x.entity_id+'\',false)">Tolak</button></td></tr>').join('');
+}
+async function decideApproval(requestId,entityType,entityId,approve){
+ if(role!=='owner'||!currentUser){alert('Hanya Owner terverifikasi yang dapat menyetujui.');return}
+ const entityTable=({document:'documents',problem:'quality_problems',kaizen:'kaizens'})[entityType];
+ if(!entityTable){alert('Jenis pengajuan tidak dikenali.');return}
+ const newStatus=approve?'approved':'rejected';
+ const {error:entityError}=await sb.from(entityTable).update({status:newStatus,approved_by:currentUser.id,approved_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',entityId);
+ if(entityError){alert('Gagal memperbarui data: '+entityError.message);return}
+ const {error:reqError}=await sb.from('approval_requests').update({status:newStatus,decided_by:currentUser.id,decided_at:new Date().toISOString()}).eq('id',requestId);
+ if(reqError){alert('Status data berubah tetapi approval request gagal diperbarui: '+reqError.message);return}
+ await renderApprovals();alert('Keputusan Owner berhasil disimpan.');
+}
+function inviteDemo(){alert('Undangan pengguna belum tersedia. Harus dibuat melalui Supabase Edge Function yang aman; service_role key tidak boleh berada di browser.')}
+function filterPublicDocs(q){let items=document.querySelectorAll('#publicDocList .doc');items.forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q.toLowerCase())?'':'none')}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// Supabase JS v2 client bootstrap. Publishable key is intended for browser use;
+// authorization must still be enforced by PostgreSQL RLS.
+(function initQcfiiSupabase(){
+ const tag=document.createElement('script');
+ tag.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+ tag.onload=async()=>{
+  try{
+   sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+   setNotice('Terhubung ke layanan Supabase. Silakan login sebagai anggota.');
+   const {data}=await sb.auth.getSession();
+   if(data.session)await loadMemberWorkspace(data.session.user);
+   sb.auth.onAuthStateChange((_event,session)=>{if(!session){currentUser=null;}});
+  }catch(e){setNotice('Koneksi Supabase gagal: '+e.message)}
+ };
+ tag.onerror=()=>setNotice('Library Supabase gagal dimuat. Periksa koneksi internet.');
+ document.head.appendChild(tag);
+})();
+</script>
+</body></html>
