@@ -50,15 +50,6 @@
   <button class="btn outline" style="width:100%;margin-top:8px" onclick="sendPasswordReset()">Lupa password?</button><button class="btn outline" style="width:100%;margin-top:8px" onclick="showPublic()">Kembali ke publik</button>
  </div>
 </section>
-<section id="recoveryPage" class="hidden">
- <div class="loginbox"><div class="brand"><div class="mark">QC</div><div><b>QCFII</b><small>PEMULIHAN AKUN</small></div></div>
-  <h2>Buat Password Baru</h2><p class="small">Buat password baru untuk akun QCFII Anda. Gunakan minimal 8 karakter.</p>
-  <div class="field"><label>Password baru</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Masukkan password baru"></div>
-  <div class="field"><label>Konfirmasi password baru</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Ulangi password baru"></div>
-  <button class="btn" style="width:100%" onclick="saveNewPassword()">Simpan Password Baru</button>
-  <button class="btn outline" style="width:100%;margin-top:8px" onclick="showLogin()">Kembali ke Login</button>
- </div>
-</section>
 <section id="workspace" class="workspace">
  <aside class="side">
   <div class="brand" style="color:white;padding:3px 8px 16px"><div class="mark">QC</div><div class="sidelogo-text"><b>QCFII</b><small style="display:block;color:#b4c9d7;font-size:9px">PORTAL ANGGOTA</small></div></div>
@@ -82,23 +73,7 @@
    <div class="metrics"><div class="metric"><span>Dokumen terpublikasi</span><strong>—</strong></div><div class="metric"><span>Pengajuan saya</span><strong id="mySubmissions">0</strong></div><div class="metric"><span>Menunggu persetujuan</span><strong id="pendingTotal">0</strong></div><div class="metric"><span>Status akun</span><strong style="font-size:17px">Pratinjau</strong></div></div>
    <div class="grid2"><div class="panel"><h3>Aktivitas portal</h3><div class="rowitem"><span>Ajukan dokumen atau revisi</span><button class="btn secondary" onclick="page('docs')">Buka</button></div><div class="rowitem"><span>Laporkan problem kualitas</span><button class="btn secondary" onclick="page('problems')">Buka</button></div><div class="rowitem"><span>Ajukan ide kaizen</span><button class="btn secondary" onclick="page('kaizen')">Buka</button></div></div><div class="panel"><h3>Aturan kerja</h3><p class="small">Anggota dapat mengisi dan mengajukan data. Perubahan penting, pengesahan, perubahan hak akses, serta publikasi memerlukan persetujuan sesuai kewenangan Owner.</p></div></div>
   </section>
-  <section id="docs" class="subpage hidden">
-   <div class="panel"><h3>Upload & pengajuan dokumen QC</h3><p class="small">Pilih file dokumen asli. File disimpan di Supabase Storage (bucket privat), sedangkan informasi dokumen disimpan di database. File maksimal 20 MB. Format: PDF, Excel, Word, JPG, PNG.</p>
-    <div class="formgrid">
-     <div class="field"><label>Jenis dokumen</label><select id="docType"><option>SDS</option><option>SOP</option><option>Work Instruction</option><option>Form QC</option><option>Standard Inspection</option></select></div>
-     <div class="field"><label>Departemen / proses</label><input id="docDept" placeholder="Contoh: Welding"></div>
-     <div class="field"><label>Nomor dokumen</label><input id="docNo" placeholder="Nomor dokumen"></div>
-     <div class="field"><label>Judul dokumen</label><input id="docTitle" placeholder="Judul dokumen"></div>
-     <div class="field full"><label>File dokumen QC</label><input id="docFile" type="file" accept=".pdf,.xls,.xlsx,.doc,.docx,.jpg,.jpeg,.png"></div>
-     <div class="field full"><label>Catatan pengajuan</label><textarea id="docNote" placeholder="Jelaskan pembuatan atau revisi yang diajukan"></textarea></div>
-    </div>
-    <button class="btn" id="uploadDocBtn" onclick="submitDocumentWithFile()">Upload & kirim untuk persetujuan</button>
-    <p class="small" style="margin-top:10px">Dokumen belum otomatis menjadi dokumen publik. Owner harus memeriksa dan menyetujuinya terlebih dahulu.</p>
-   </div>
-   <div class="panel" style="margin-top:14px"><div class="section-head"><div><h3 style="margin-bottom:3px">Dokumen saya / dokumen yang dapat diakses</h3><p class="small">Daftar diambil langsung dari database QCFII.</p></div><button class="btn secondary" onclick="renderMyDocuments()">Refresh</button></div>
-    <div class="tablewrap"><table class="tbl"><thead><tr><th>No. Dokumen</th><th>Judul</th><th>Jenis</th><th>Departemen</th><th>Status</th><th>File</th></tr></thead><tbody id="myDocumentRows"><tr><td colspan="6" class="empty">Memuat dokumen…</td></tr></tbody></table></div>
-   </div>
-  </section>
+  <section id="docs" class="subpage hidden"><div class="panel"><h3>Pengajuan dokumen</h3><div class="formgrid"><div class="field"><label>Jenis dokumen</label><select id="docType"><option>SDS</option><option>SOP</option><option>Work Instruction</option><option>Form QC</option><option>Standard Inspection</option></select></div><div class="field"><label>Departemen / proses</label><input id="docDept" placeholder="Contoh: Welding"></div><div class="field"><label>Nomor dokumen</label><input id="docNo" placeholder="Nomor dokumen"></div><div class="field"><label>Judul dokumen</label><input id="docTitle" placeholder="Judul dokumen"></div><div class="field full"><label>Catatan pengajuan</label><textarea id="docNote" placeholder="Jelaskan pembuatan atau revisi yang diajukan"></textarea></div><div class="field full"><label>File dokumen (PDF, Word, Excel, PowerPoint, JPG/PNG, CSV)</label><input id="docFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.csv"/><small class="small">Maksimal 50 MB. Dokumen disimpan di bucket privat dan dibuka melalui sesi login anggota.</small></div></div><button class="btn" onclick="submitItem('Dokumen', ['docType','docDept','docNo','docTitle','docNote'])">Kirim untuk persetujuan</button><div class="panel" style="margin-top:18px"><h3>Dokumen yang dapat diakses</h3><p class="small">Daftar ini mengikuti izin akun Anda. Dokumen privat dibuka tanpa tautan publik permanen.</p><button class="btn secondary" onclick="loadDocumentList()">Muat ulang daftar</button><div id="memberDocumentList" class="small" style="margin-top:12px">Klik “Muat ulang daftar” untuk melihat dokumen.</div></div></div></section>
   <section id="problems" class="subpage hidden"><div class="panel"><h3>Input problem kualitas</h3><div class="formgrid"><div class="field"><label>Area / proses</label><input id="probArea" placeholder="Press / Body / Welding"></div><div class="field"><label>Part / produk</label><input id="probPart" placeholder="Nama atau nomor part"></div><div class="field"><label>Jenis problem</label><input id="probType" placeholder="Contoh: Welding bolong"></div><div class="field"><label>Tanggal kejadian</label><input id="probDate" type="date"></div><div class="field full"><label>Deskripsi problem</label><textarea id="probDesc" placeholder="Apa yang terjadi, lokasi temuan, jumlah, dan kondisi aktual"></textarea></div><div class="field full"><label>Containment sementara</label><textarea id="probContain" placeholder="Tindakan pengamanan sementara"></textarea></div></div><button class="btn" onclick="submitItem('Problem QC',['probArea','probPart','probType','probDate','probDesc','probContain'])">Kirim problem</button></div></section>
   <section id="kaizen" class="subpage hidden"><div class="panel"><h3>Pengajuan kaizen</h3><div class="formgrid"><div class="field"><label>Judul kaizen</label><input id="kTitle" placeholder="Judul improvement"></div><div class="field"><label>Area</label><input id="kArea" placeholder="Area / proses"></div><div class="field full"><label>Kondisi saat ini</label><textarea id="kBefore" placeholder="Jelaskan kondisi sebelum perbaikan"></textarea></div><div class="field full"><label>Usulan perbaikan</label><textarea id="kAfter" placeholder="Jelaskan rencana improvement"></textarea></div><div class="field full"><label>Target / manfaat</label><textarea id="kBenefit" placeholder="Quality, cost, delivery, safety, productivity"></textarea></div></div><button class="btn" onclick="submitItem('Kaizen',['kTitle','kArea','kBefore','kAfter','kBenefit'])">Kirim kaizen</button></div></section>
   <section id="reports" class="subpage hidden"><div class="panel"><h3>Report & KPI</h3><p class="small">KPI aktual belum dihubungkan. Definisi indikator, formula, sumber data, target, dan periode harus disepakati sebelum angka ditampilkan.</p><div class="rowitem"><span>Quality performance</span><span class="tag">Belum terhubung</span></div><div class="rowitem"><span>Outflow / customer claim</span><span class="tag">Belum terhubung</span></div><div class="rowitem"><span>Kaizen achievement</span><span class="tag">Belum terhubung</span></div></div></section>
@@ -112,20 +87,8 @@
 const SUPABASE_URL='https://qyjgdcyuntidzkscztbq.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_cB_l_Nxytn79xMeWPBQzuQ_gWAhBaqn';
 let sb=null, role='member', currentUser=null, submissions=[];
-function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
-function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('recoveryPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
-function showRecoveryPage(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';document.getElementById('recoveryPage').classList.remove('hidden');window.scrollTo(0,0)}
-async function saveNewPassword(){
- if(!sb){alert('Koneksi Supabase belum siap.');return}
- const password=document.getElementById('newPassword').value, confirm=document.getElementById('confirmPassword').value;
- if(password.length<8){alert('Password minimal 8 karakter.');return}
- if(password!==confirm){alert('Konfirmasi password tidak sama.');return}
- const {error}=await sb.auth.updateUser({password});
- if(error){alert('Password gagal diperbarui: '+error.message);return}
- document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';
- alert('Password baru berhasil disimpan. Silakan login kembali menggunakan password baru.');
- await sb.auth.signOut();showLogin();
-}
+function showPublic(){document.getElementById('publicPage').classList.remove('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
+function showLogin(){document.getElementById('publicPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden');document.getElementById('workspace').style.display='none';window.scrollTo(0,0)}
 function setNotice(msg){const n=document.getElementById('connectionNotice');if(n)n.textContent=msg}
 async function realSignIn(){
  if(!sb){alert('Koneksi Supabase belum siap. Periksa koneksi internet dan buka melalui hosting atau server lokal (bukan preview teks).');return}
@@ -152,7 +115,7 @@ async function loadMemberWorkspace(user){
  document.getElementById('ownerNav').classList.toggle('hidden',role!=='owner');
  document.getElementById('welcome').textContent='Masuk sebagai '+(profile.display_name||profile.email);
  setNotice('Terhubung ke Supabase. Hak akses dibaca dari profil database.');
- page('dash');await refreshMySubmissions();await renderMyDocuments();window.scrollTo(0,0);
+ page('dash');await refreshMySubmissions();window.scrollTo(0,0);
 }
 async function logout(){if(sb)await sb.auth.signOut();currentUser=null;showPublic()}
 async function refreshMySubmissions(){
@@ -161,58 +124,26 @@ async function refreshMySubmissions(){
  for(const table of tables){const {data}=await sb.from(table).select('id,status').eq('created_by',currentUser.id);if(data){total+=data.length;pending+=data.filter(x=>x.status==='submitted').length}}
  document.getElementById('mySubmissions').textContent=total;document.getElementById('pendingTotal').textContent=pending;
 }
-function page(id,btn){document.querySelectorAll('.subpage').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else{let n=[...document.querySelectorAll('.nav')].find(x=>x.getAttribute('onclick')?.includes("'"+id+"'"));if(n)n.classList.add('active')}document.getElementById('pageTitle').textContent=({dash:'Dashboard',docs:'Dokumen',problems:'Problem QC',kaizen:'Kaizen',reports:'Report & KPI',approval:'Persetujuan Owner',users:'Manajemen Pengguna',audit:'Audit & Pengaturan'})[id]||id;if(id==='approval')renderApprovals();if(id==='docs')renderMyDocuments()}
-function safeFileName(name){return name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/_+/g,'_').slice(-120)}
-async function submitDocumentWithFile(){
- if(!sb||!currentUser){alert('Silakan login terlebih dahulu.');return}
- const ids=['docType','docDept','docNo','docTitle','docNote'];
- const vals=ids.map(id=>document.getElementById(id).value.trim());
- const file=document.getElementById('docFile').files[0];
- if(vals.slice(1,4).some(v=>!v)){alert('Lengkapi departemen, nomor dokumen, dan judul dokumen.');return}
- if(!file){alert('Pilih file dokumen QC terlebih dahulu.');return}
- const allowed=['pdf','xls','xlsx','doc','docx','jpg','jpeg','png'];
- const ext=(file.name.split('.').pop()||'').toLowerCase();
- if(!allowed.includes(ext)){alert('Format file belum didukung. Gunakan PDF, Excel, Word, JPG, atau PNG.');return}
- if(file.size>20*1024*1024){alert('Ukuran file maksimal 20 MB.');return}
- const btn=document.getElementById('uploadDocBtn');btn.disabled=true;btn.textContent='Mengunggah dokumen…';
- try{
-  const path=currentUser.id+'/'+Date.now()+'_'+safeFileName(file.name);
-  const {error:uploadError}=await sb.storage.from('qcfii-documents').upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type||undefined});
-  if(uploadError)throw new Error('Upload file gagal: '+uploadError.message);
-  const payload={doc_code:vals[2],title:vals[3],doc_type:({'SDS':'SDS','SOP':'SOP','Work Instruction':'WI','Form QC':'FORM','Standard Inspection':'STANDARD'})[vals[0]],department:vals[1],storage_path:path,status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
-  const {data:record,error:dbError}=await sb.from('documents').insert(payload).select('id').single();
-  if(dbError){throw new Error('File sudah masuk Storage, tetapi metadata database gagal disimpan. Sampaikan ke Owner untuk pengecekan. Detail: '+dbError.message)}
-  const {error:approvalError}=await sb.from('approval_requests').insert({entity_type:'document',entity_id:record.id,requested_action:'publish',requested_by:currentUser.id,status:'submitted'});
-  if(approvalError){alert('Dokumen dan metadata berhasil disimpan, tetapi permintaan approval gagal dibuat: '+approvalError.message+'. Hubungi Owner.');}
-  else alert('Berhasil! File QC tersimpan di Supabase Storage dan pengajuan dikirim ke Owner untuk persetujuan.');
-  ids.forEach(id=>document.getElementById(id).value='');document.getElementById('docFile').value='';
-  await refreshMySubmissions();await renderMyDocuments();
- }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='Upload & kirim untuk persetujuan'}
-}
-async function renderMyDocuments(){
- const body=document.getElementById('myDocumentRows');if(!body)return;
- if(!sb||!currentUser){body.innerHTML='<tr><td colspan="6" class="empty">Login diperlukan untuk melihat dokumen.</td></tr>';return}
- body.innerHTML='<tr><td colspan="6" class="empty">Memuat dokumen…</td></tr>';
- const {data,error}=await sb.from('documents').select('id,doc_code,title,doc_type,department,status,storage_path,created_at').order('created_at',{ascending:false}).limit(100);
- if(error){body.innerHTML='<tr><td colspan="6" class="empty">Gagal memuat dokumen: '+escapeHtml(error.message)+'</td></tr>';return}
- if(!data||!data.length){body.innerHTML='<tr><td colspan="6" class="empty">Belum ada dokumen yang dapat Anda akses.</td></tr>';return}
- body.innerHTML=data.map(d=>'<tr><td>'+escapeHtml(d.doc_code||'-')+'</td><td>'+escapeHtml(d.title||'-')+'</td><td>'+escapeHtml(d.doc_type||'-')+'</td><td>'+escapeHtml(d.department||'-')+'</td><td><span class="tag '+(d.status==='approved'?'green':'amber')+'">'+escapeHtml(d.status||'-')+'</span></td><td>'+(d.storage_path?'<button class="btn secondary" onclick="openDocumentFile(\''+String(d.id).replace(/[^a-zA-Z0-9-]/g,'')+'\')">Buka / Unduh</button>':'<span class="small">Tidak ada file</span>')+'</td></tr>').join('');
- window.qcfiiDocumentPaths=window.qcfiiDocumentPaths||{};data.forEach(d=>window.qcfiiDocumentPaths[d.id]=d.storage_path);
-}
-async function openDocumentFile(id){
- const path=window.qcfiiDocumentPaths&&window.qcfiiDocumentPaths[id];if(!path){alert('Lokasi file tidak ditemukan. Refresh daftar dokumen.');return}
- const {data,error}=await sb.storage.from('qcfii-documents').createSignedUrl(path,300);
- if(error){alert('File tidak dapat dibuka: '+error.message);return}
- window.open(data.signedUrl,'_blank','noopener');
-}
+function page(id,btn){document.querySelectorAll('.subpage').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else{let n=[...document.querySelectorAll('.nav')].find(x=>x.getAttribute('onclick')?.includes("'"+id+"'"));if(n)n.classList.add('active')}document.getElementById('pageTitle').textContent=({dash:'Dashboard',docs:'Dokumen',problems:'Problem QC',kaizen:'Kaizen',reports:'Report & KPI',approval:'Persetujuan Owner',users:'Manajemen Pengguna',audit:'Audit & Pengaturan'})[id]||id;if(id==='approval')renderApprovals()}
 async function submitItem(type,ids){
  if(!sb||!currentUser){alert('Silakan login terlebih dahulu.');return}
  let vals=ids.map(id=>document.getElementById(id).value.trim());
  if(vals.some(v=>!v)){alert('Mohon lengkapi semua kolom sebelum mengirim.');return}
  let table,payload,entityType,summary;
  if(type==='Dokumen'){
+  const fileInput=document.getElementById('docFile');
+  const file=fileInput?.files?.[0];
+  if(!file){alert('Silakan pilih file dokumen yang akan diajukan.');return}
+  if(file.size>50*1024*1024){alert('Ukuran file melebihi batas 50 MB.');return}
+  const allowed=['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-powerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation','image/jpeg','image/png','text/csv'];
+  if(file.type && !allowed.includes(file.type)){alert('Format file belum diizinkan. Gunakan PDF, Word, Excel, PowerPoint, JPG, PNG, atau CSV.');return}
   table='documents';entityType='document';summary=vals[3];
-  payload={doc_code:vals[2],title:vals[3],doc_type:({'SDS':'SDS','SOP':'SOP','Work Instruction':'WI','Form QC':'FORM','Standard Inspection':'STANDARD'})[vals[0]],department:vals[1],status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
+  const typeFolder=({'SDS':'SDS','SOP':'SOP','Work Instruction':'WI','Form QC':'FORM','Standard Inspection':'STANDARD'})[vals[0]];
+  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const storagePath=typeFolder+'/'+Date.now()+'_'+safeName;
+  const {error:uploadError}=await sb.storage.from('qcfii-documents').upload(storagePath,file,{upsert:false,contentType:file.type||undefined});
+  if(uploadError){alert('Upload file gagal: '+uploadError.message);return}
+  payload={doc_code:vals[2],title:vals[3],doc_type:typeFolder,department:vals[1],storage_path:storagePath,status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
  }else if(type==='Problem QC'){
   table='quality_problems';entityType='problem';summary=vals[2];
   payload={problem_code:'QCP-'+Date.now(),title:vals[2],process_area:vals[0],problem_description:vals[4]+' | Part: '+vals[1]+' | Tanggal: '+vals[3]+' | Containment: '+vals[5],status:'submitted',created_by:currentUser.id,submitted_at:new Date().toISOString()};
@@ -225,8 +156,29 @@ async function submitItem(type,ids){
  const {error:approvalError}=await sb.from('approval_requests').insert({entity_type:entityType,entity_id:record.id,requested_action:'publish',requested_by:currentUser.id,status:'submitted'});
  if(approvalError){alert('Data tersimpan, tetapi permintaan approval gagal dibuat: '+approvalError.message+' . Hubungi Owner untuk pemeriksaan.');return}
  alert('Pengajuan berhasil disimpan dan dikirim untuk persetujuan Owner.');
- ids.forEach(id=>document.getElementById(id).value='');await refreshMySubmissions();
+ ids.forEach(id=>document.getElementById(id).value='');if(type==='Dokumen'){document.getElementById('docFile').value='';await loadDocumentList()}await refreshMySubmissions();
 }
+async function loadDocumentList(){
+ const box=document.getElementById('memberDocumentList');
+ if(!box)return;
+ if(!sb||!currentUser){box.textContent='Silakan login terlebih dahulu.';return}
+ box.textContent='Memuat dokumen…';
+ const {data,error}=await sb.from('documents').select('id,doc_code,title,doc_type,department,revision,status,storage_path,created_at').order('created_at',{ascending:false}).limit(100);
+ if(error){box.textContent='Gagal memuat dokumen: '+error.message;return}
+ if(!data?.length){box.textContent='Belum ada dokumen yang dapat diakses.';return}
+ box.innerHTML=data.map(d=>`<div class="rowitem"><span><b>${escapeHtml(d.doc_code||'')} · ${escapeHtml(d.title||'')}</b><br><small>${escapeHtml(d.doc_type||'')} | ${escapeHtml(d.department||'')} | ${escapeHtml(d.status||'')}</small></span>${d.storage_path?`<button class="btn secondary" onclick="openStoredDocument('${encodeURIComponent(d.storage_path)}')">Buka</button>`:'<span class="tag">Belum ada file</span>'}</div>`).join('');
+}
+async function openStoredDocument(encodedPath){
+ if(!sb||!currentUser){alert('Silakan login terlebih dahulu.');return}
+ const path=decodeURIComponent(encodedPath);
+ const {data,error}=await sb.storage.from('qcfii-documents').download(path);
+ if(error){alert('Dokumen tidak dapat dibuka: '+error.message);return}
+ const blobUrl=URL.createObjectURL(data);
+ const win=window.open(blobUrl,'_blank','noopener');
+ if(!win){const a=document.createElement('a');a.href=blobUrl;a.download=path.split('/').pop()||'dokumen';a.click()}
+ setTimeout(()=>URL.revokeObjectURL(blobUrl),5*60*1000);
+}
+
 async function renderApprovals(){
  let b=document.getElementById('approvalRows');if(!sb||role!=='owner'){b.innerHTML='<tr><td colspan="5" class="empty">Menu ini hanya untuk Owner yang sudah terverifikasi.</td></tr>';return}
  const {data,error}=await sb.from('approval_requests').select('id,entity_type,entity_id,requested_by,status,created_at').eq('status','submitted').order('created_at',{ascending:false});
@@ -258,15 +210,9 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','
   try{
    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
    setNotice('Terhubung ke layanan Supabase. Silakan login sebagai anggota.');
-   let handlingRecovery=false;
-   sb.auth.onAuthStateChange((event,session)=>{
-    if(event==='PASSWORD_RECOVERY'){handlingRecovery=true;showRecoveryPage();return;}
-    if(event==='SIGNED_OUT'){currentUser=null;}
-   });
    const {data}=await sb.auth.getSession();
-   const hashParams=new URLSearchParams(window.location.hash.replace(/^#/,''));
-   if(hashParams.get('type')==='recovery'){showRecoveryPage();}
-   else if(data.session&&!handlingRecovery){await loadMemberWorkspace(data.session.user);}
+   if(data.session)await loadMemberWorkspace(data.session.user);
+   sb.auth.onAuthStateChange((_event,session)=>{if(!session){currentUser=null;}});
   }catch(e){setNotice('Koneksi Supabase gagal: '+e.message)}
  };
  tag.onerror=()=>setNotice('Library Supabase gagal dimuat. Periksa koneksi internet.');
